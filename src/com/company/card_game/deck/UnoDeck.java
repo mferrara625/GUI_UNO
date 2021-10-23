@@ -32,7 +32,6 @@ public class UnoDeck implements Deck {
         }
     }
 
-    public Color[] getColors(){return colors;}
 
     @Override
     public void shuffle() {

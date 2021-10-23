@@ -24,7 +24,7 @@ public class Table extends JPanel implements ActionListener {
     private static boolean isDraw4 = false;
     private boolean didWin = false;
     private static boolean startGame = false;
-    private boolean canEndTurn = false;
+    private static boolean canEndTurn = false;
     private boolean triedAuto = false;
 
 
@@ -202,12 +202,17 @@ public class Table extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent event) {
             if (startGame) {
                 if (event.getKeyChar() == 's') {
-                    changePlayer();
+                    if(canEndTurn) {
+                        changePlayer();
+                        canEndTurn = false;
+                    }
                     event.consume();
                 }
                 if (event.getKeyChar() == 'a') {
-                    if (hand.cards.size() < 30)
+                    if (hand.cards.size() < 30) {
                         hand.addCardToHand(deck.deal());
+                        canEndTurn = true;
+                    }
                     else
                         changePlayer();
                     event.consume();
@@ -592,6 +597,10 @@ public class Table extends JPanel implements ActionListener {
                 for (Hand hand : hands) {
                     hand.cards.clear();
                 }
+                isReversed = false;
+                isDraw2 = false;
+                isDraw4 = false;
+                wasSkipped = false;
                 if (isGameActive)
                     deal();
                 didWin = false;
